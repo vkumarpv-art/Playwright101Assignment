@@ -1,0 +1,20 @@
+import { test, expect } from '@playwright/test';
+import SeleniumPlaygroundHomePage from '../pomfiles/SeleniumPlaygroundHomePagePOM'
+import DragDropSlidersPage from '../pomfiles/DragDropSlidersPagePOM'
+
+test('Drag & Drop Slider validation', async ({ page }) => {
+  const homePage = new SeleniumPlaygroundHomePage(page)
+  const dragDropSlidersPage = new DragDropSlidersPage(page)
+
+  // 1. Open Selenium Playground
+  await homePage.open();
+
+  // 2. Click “Drag & Drop Sliders”
+  await homePage.getDragDropSlidersLink().click();
+
+  // 3. Select the slider “Default value 15” and drag to 95
+  await dragDropSlidersPage.setDefaultValueSlider('95'); // set slider value directly
+
+  // 4. Validate whether the range value shows 95
+  await expect(dragDropSlidersPage.getRangeValue()).toHaveText('95');
+});

@@ -1,0 +1,29 @@
+import { test, expect } from '@playwright/test';
+import SeleniumPlaygroundHomePage from '../pomfiles/SeleniumPlaygroundHomePagePOM'
+import SimpleFormDemoPage from '../pomfiles/SimpleFormDemoPagePOM'
+
+test('Simple Form Demo validation', async ({ page }) => {
+  const homePage = new SeleniumPlaygroundHomePage(page)
+  const simpleFormDemoPage = new SimpleFormDemoPage(page)
+
+  // 1. Open Selenium Playground
+  await homePage.open();
+
+  // 2. Click “Simple Form Demo”
+  await homePage.getSimpleFormDemoLink().click();
+
+  // 3. Validate that the URL contains “simple-form-demo”
+  await expect(page).toHaveURL(/simple-form-demo/);
+
+  // 4. Create a variable for a string value
+  const message = "Welcome to TestMu AI";
+
+  // 5. Use this variable to enter values in the “Enter Message” text box
+  await simpleFormDemoPage.getMessageInput().fill(message);
+
+  // 6. Click “Get Checked Value”
+  await simpleFormDemoPage.getCheckValueButton().click();
+
+  // 7. Validate whether the same text message is displayed
+  await expect(simpleFormDemoPage.getMessageOutput()).toHaveText(message);
+});
